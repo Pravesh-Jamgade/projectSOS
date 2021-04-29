@@ -7,4 +7,3 @@ from boilerplate_app.models import User, Projects
 
 admin.site.register(User)
 admin.site.register(Projects)
-
