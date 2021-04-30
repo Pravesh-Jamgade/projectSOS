@@ -13,14 +13,14 @@ TAG = [("BD", "Bed"), ("ONRL", "Oxygen Refill"), ("EYCR", "Empty Cylinder"),
 
 class AddressModel(models.Model):
     entity_id = models.ForeignKey("EntityModel", on_delete=models.CASCADE)
-    lane = models.CharField(("lane"), max_length=250, db_index=True, editable=False)
-    town = models.CharField(("town"), max_length=300, db_index=True, editable=False)
+    lane = models.CharField(("lane"), max_length=250, db_index=True)
+    town = models.CharField(("town"), max_length=300, db_index=True)
     district = models.CharField(
-        ("district"), max_length=300, db_index=True, editable=False
+        ("district"), max_length=300, db_index=True
     )
-    state = models.CharField(("state"), max_length=300, db_index=True, editable=False)
-    contact_phone = models.CharField(max_length=10, editable=False)
-    contact_alternate_phone = models.CharField(max_length=10, editable=False)
+    state = models.CharField(("state"), max_length=300, db_index=True)
+    contact_phone = models.CharField(max_length=10)
+    contact_alternate_phone = models.CharField(max_length=10)
     email = models.EmailField("email", null=True, blank=True)
 
 

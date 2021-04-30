@@ -7,8 +7,8 @@ from .serializers import *
 
 import json
 
-INVALID_POST_DATA = "Data insufficient to post"
-VALID_POST_DATA = "Successfully posted"
+INVALID_POST_DATA = "Failure"
+VALID_POST_DATA = "Success"
 # AddressModel
 #1 get address of entity
 #2 get contact of entity
@@ -22,8 +22,14 @@ class AddressView(APIView):
 #2 get entity names
 #3 get entity choice
 
-class EntityView():
-    pass
+class EntityView(APIView):
+    def get(self, request):
+        data = request.data
+        entities = EntityModel.objects.all()
+        json = []
+        for entity in entities:
+          pass
+        return Response({'data':None, 'status':True})
 
 # ToolsModel
 #1 post tool_name, tool_from, tool_qty, tool _state
@@ -46,23 +52,31 @@ class SOSView():
 class RegisterEntityView(APIView):
     def post(self, request):
         data = request.data
+
+        # create entity
         serializer = RegisterEntitySerializer(data=data)
-        if(not serializer.is_valid()):
+        if(not serializer.is_valid(raise_exception=True)):
             return Response({
                 'status': False, 'message':INVALID_POST_DATA},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        
         entity = serializer.save()
+
+        # create address
+        data['entity_id']= entity.entity_id
+        serializer = RegisterAddressSerializer(data=data)
+        if(not serializer.is_valid(raise_exception=True)):
+            return Response({
+                'status': False, 'message':INVALID_POST_DATA},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        address = serializer.save()
 
         return Response({
             'status':True, 'message':VALID_POST_DATA}, 
             status=status.HTTP_200_OK
         )
     
-    def get(self, request):
-        data = []
-        return Response({'status': True}, status=status.HTTP_200_OK)
 
 
 # SortData 
